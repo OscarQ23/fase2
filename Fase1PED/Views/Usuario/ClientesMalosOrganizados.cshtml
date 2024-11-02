@@ -1,0 +1,31 @@
+﻿@model List<Fase1PED.Models.Usuario>
+
+<h2>Usuarios para Cobro (C y D)</h2>
+<p>Estos son usuarios con riesgo. Se recomienda contactar para cobro.</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Categoría</th>
+            <th>Saldo</th>
+            <th>Pago Pendiente</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Direccion</td>
+                <td>@usuario.Telefono</td>
+                <td>@usuario.Categoria.Nombre</td>
+                <td>@usuario.Saldo</td>
+                <td>@(usuario.PagoPendiente ? "Sí" : "No")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary">Volver a la Lista General</a>

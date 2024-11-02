@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Fase1PED.Models.Usuario>
+
+<h2>Usuarios Buenos</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Categoría</th>
+            <th>Saldo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Direccion</td>
+                <td>@usuario.Telefono</td>
+                <!-- Mostrar el nombre de la categoría -->
+                <td>@usuario.Categoria.Nombre</td>
+                <td>@usuario.Saldo</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary">Volver a la Lista General</a>

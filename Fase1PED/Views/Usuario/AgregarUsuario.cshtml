@@ -1,0 +1,60 @@
+﻿@model Fase1PED.Models.Usuario
+
+<h2>Agregar Nuevo Usuario</h2>
+
+<form asp-action="AgregarUsuario" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" class="form-control" required />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Direccion"></label>
+        <input asp-for="Direccion" class="form-control" required />
+        <span asp-validation-for="Direccion" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Telefono"></label>
+        <input asp-for="Telefono" class="form-control" required />
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+
+    <!-- Ajustar el dropdown para seleccionar la categoría -->
+    <div class="form-group">
+        <label asp-for="CategoriaId"></label>
+        <select asp-for="CategoriaId" class="form-control" required>
+            <option value="">Seleccione una categoría</option>
+            @foreach (var categoria in ViewBag.Categorias)
+            {
+                <!-- Asegúrate de que se envíe el Id de la categoría correctamente -->
+                <option value="@categoria.Id">@categoria.Nombre - @categoria.Descripcion</option>
+            }
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Saldo"></label>
+        <input asp-for="Saldo" class="form-control" type="number" step="0.01" required />
+        <span asp-validation-for="Saldo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PagoPendiente"></label>
+        <select asp-for="PagoPendiente" class="form-control" required>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+        </select>
+        <span asp-validation-for="PagoPendiente" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+</form>
+
+<a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary">Volver a la Lista General</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

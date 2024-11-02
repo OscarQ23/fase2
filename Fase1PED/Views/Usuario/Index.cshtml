@@ -1,0 +1,68 @@
+﻿
+
+@{
+    ViewData["Title"] = "Sistema de Gestión de Usuarios";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Sistema de Gestión de Usuarios Bancarios</h2>
+
+    <div class="menu-container text-center">
+        <div class="menu">
+            <ul class="nav flex-column align-items-center">
+                <li class="nav-item mb-2">
+                    <a class="nav-link btn btn-secondary btn-lg" href="@Url.Action("ClientesBuenosOrganizados", "Usuario")">
+                        Usuarios Buenos (A y B)
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link btn btn-warning btn-lg" href="@Url.Action("ClientesMalosOrganizados", "Usuario")">
+                        Usuarios para Cobro (C y D)
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link btn btn-info  btn-lg" href="@Url.Action("ClientesIncobrablesOrganizados", "Usuario")">Ver Clientes Incobrables   Usuarios Incobrables (E) </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="add-user text-center ">
+        <a href="@Url.Action("AgregarUsuario", "Usuario")" class="btn btn-success btn-lg">Agregar Nuevo Usuario</a>
+    </div>
+</div>
+
+<!-- Estilos personalizados -->
+<style>
+    .menu-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .menu ul {
+        list-style-type: none;
+        padding: 0;
+
+    }
+
+    .menu ul a {
+        color: white;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        display: inline-block;
+        width: 80%;
+        font-weight: bold;
+        padding: 15px;
+    }
+
+    .add-user {
+        
+    }
+</style>
+
