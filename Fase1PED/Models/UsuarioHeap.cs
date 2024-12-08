@@ -4,33 +4,31 @@ namespace Fase1PED.Models
 {
     public class UsuarioHeap
     {
-        // Almacenamos los Usuarios en nuestro HEAP
         private List<Usuario> heap = new List<Usuario>();
 
         public enum TipoHeap { Bueno, Malo, Incobrable }
         private TipoHeap tipoHeap;
 
-        //Guardamos el tipo de Usuarios en el constructor UsuarioHeap
         public UsuarioHeap(TipoHeap tipo)
         {
             tipoHeap = tipo;
         }
 
-        // Agregamos un nuevo usuario 
+        // Insertar un usuario al heap
         public void Insertar(Usuario usuario)
         {
             heap.Add(usuario);
-            Subir(heap.Count - 1); // Ajustar la posición del nuevo elemento
+            Subir(heap.Count - 1); // Ajusta la posición del nuevo elemento
         }
 
-        // Obtener el usuario con mayor prioridad
-        public Usuario ObtenerMayorPrioridad()
+        // Obtener el usuario con mayor prioridad (manejar nulos explícitamente)
+        public Usuario? ObtenerMayorPrioridad()
         {
             if (heap.Count == 0) return null;
             return heap[0];
         }
 
-        // Eliminar usuario de mayor prioridad
+        // Eliminar el usuario con mayor prioridad
         public void EliminarMayorPrioridad()
         {
             if (heap.Count == 0) return;
@@ -39,7 +37,6 @@ namespace Fase1PED.Models
             Bajar(0);
         }
 
-        // Ajustar el heap cuando se inserta un elemento
         private void Subir(int index)
         {
             while (index > 0)
@@ -57,7 +54,6 @@ namespace Fase1PED.Models
             }
         }
 
-        // Ajustar el heap cuando se elimina o se modifica un elemento
         private void Bajar(int index)
         {
             int ultimoIndex = heap.Count - 1;
@@ -87,7 +83,6 @@ namespace Fase1PED.Models
             }
         }
 
-        // Método para intercambiar dos elementos en el heap
         private void Intercambiar(int index1, int index2)
         {
             Usuario temp = heap[index1];
@@ -95,10 +90,9 @@ namespace Fase1PED.Models
             heap[index2] = temp;
         }
 
-        // Método para comparar usuarios según múltiples criterios
+        // Método principal para comparar usuarios basado en el tipo de heap
         private int Comparar(Usuario u1, Usuario u2)
         {
-            // Utiliza la lógica correcta según el tipo de heap
             if (tipoHeap == TipoHeap.Bueno)
             {
                 return CompararClientesBuenos(u1, u2);
@@ -113,55 +107,70 @@ namespace Fase1PED.Models
             }
         }
 
-        // Método para comparar usuarios buenos (A y B)
+        // Comparación para clientes buenos (A y B)
         private int CompararClientesBuenos(Usuario u1, Usuario u2)
         {
-            // 1. Prioridad por Pago Pendiente (los que no tienen pagos pendientes tienen más prioridad)
-            if (!u1.PagoPendiente && u2.PagoPendiente)
-                return 1; // u1 tiene más prioridad
-            if (u1.PagoPendiente && !u2.PagoPendiente)
-                return -1; // u2 tiene más prioridad
-
-            // 2. Prioridad por Saldo (mayor es mejor)
+            
+            // 2. Prioridad por Saldo
             if (u1.Saldo > u2.Saldo)
-                return 1; // u1 tiene más prioridad
+                return 1;
             if (u1.Saldo < u2.Saldo)
-                return -1; // u2 tiene más prioridad
+                return -1;
 
-            // 3. Prioridad por Categoría (A es mejor que B)
-            return u1.CategoriaId.CompareTo(u2.CategoriaId);
+            // 1. Prioridad por Pago Pendiente
+            if (!u1.PagoPendiente && u2.PagoPendiente)
+                return 1;
+            if (u1.PagoPendiente && !u2.PagoPendiente)
+                return -1;
+
+
+            // 3. Prioridad por Categoría (manejar valores nulos)
+            return CompararNullable(u1.CategoriaId, u2.CategoriaId);
         }
 
-        // Método para comparar usuarios malos (C y D)
+        // Comparación para clientes malos (C y D)
         private int CompararClientesMalos(Usuario u1, Usuario u2)
         {
-            // 1. Prioridad por Pago Pendiente (los que tienen pagos pendientes tienen más prioridad)
-            if (u1.PagoPendiente && !u2.PagoPendiente)
-                return 1; // u1 tiene más prioridad
-            if (!u1.PagoPendiente && u2.PagoPendiente)
-                return -1; // u2 tiene más prioridad
-
-            // 2. Prioridad por Saldo (mayor es peor)
+            // 1. Prioridad por Saldo
             if (u1.Saldo > u2.Saldo)
-                return -1; // u2 tiene más prioridad
+                return 1;
             if (u1.Saldo < u2.Saldo)
-                return 1; // u1 tiene más prioridad
+                return -1;
 
-            // 3. Prioridad por Categoría (peor categoría es mejor)
-            return u2.CategoriaId.CompareTo(u1.CategoriaId);
+
+            // 2. Prioridad por Pago Pendiente
+            if (u1.PagoPendiente && !u2.PagoPendiente)
+                return 1;
+            if (!u1.PagoPendiente && u2.PagoPendiente)
+                return -1;
+
+            // 3. Prioridad por Categoría (manejar valores nulos)
+            return CompararNullable(u1.CategoriaId, u2.CategoriaId);
         }
 
-        // Método para comparar usuarios incobrables (E)
+        // Comparación para clientes incobrables (E)
         private int CompararClientesIncobrables(Usuario u1, Usuario u2)
         {
-            // Prioridad por Saldo (los que deben más tienen más prioridad)
+            // Prioridad por Saldo
             if (u1.Saldo > u2.Saldo)
-                return 1; // u1 tiene más prioridad
+                return 1;
             if (u1.Saldo < u2.Saldo)
-                return -1; // u2 tiene más prioridad
+                return -1;
 
-            // Si el saldo es igual, podemos usar otro criterio, por ejemplo, el ID de usuario
-            return -u1.CategoriaId.CompareTo(u2.CategoriaId);
+            // Si el saldo es igual, usar el ID como criterio adicional
+            return u1.Id.CompareTo(u2.Id);
+        }
+
+        // Método auxiliar para comparar valores int? (nulos permitidos)
+        private int CompararNullable(int? a, int? b)
+        {
+            if (a.HasValue && b.HasValue)
+                return a.Value.CompareTo(b.Value); // Comparar valores si ambos no son nulos
+            if (!a.HasValue && b.HasValue)
+                return -1; // Si `a` es nulo, `b` tiene más prioridad
+            if (a.HasValue && !b.HasValue)
+                return 1; // Si `b` es nulo, `a` tiene más prioridad
+            return 0; // Ambos son nulos, son iguales
         }
     }
 }

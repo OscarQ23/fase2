@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fase1PED.Models
 {
@@ -8,9 +9,12 @@ namespace Fase1PED.Models
         public int Id { get; set; }
 
         [Required]
-        public string Nombre { get; set; } = string.Empty; // Evita valores nulos
+        [StringLength(1)]
+        public string Nombre { get; set; } = string.Empty;
 
-        [Required]
-        public string Descripcion { get; set; } = string.Empty; // Evita valores nulos
+        [StringLength(100)]
+        public string? Descripcion { get; set; } // Campo opcional
+
+        public ICollection<Usuario>? Usuarios { get; set; } // Relación con Usuarios
     }
 }

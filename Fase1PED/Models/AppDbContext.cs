@@ -8,16 +8,21 @@ namespace Fase1PED.Models
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Categorias> Categorias { get; set; }
-
+        public DbSet<Tarjeta> Tarjetas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configurar la clave foránea para asegurarse de que Entity Framework la entienda correctamente
             modelBuilder.Entity<Usuario>()
                 .HasOne(u => u.Categoria)
-                .WithMany()
+                .WithMany(c => c.Usuarios)
                 .HasForeignKey(u => u.CategoriaId)
-                .OnDelete(DeleteBehavior.Restrict); // Configurar el comportamiento de eliminación
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.Tarjeta)
+                .WithMany(t => t.Usuarios)
+                .HasForeignKey(u => u.TarjetaId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             base.OnModelCreating(modelBuilder);
         }
