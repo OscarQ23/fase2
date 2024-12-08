@@ -1,29 +1,47 @@
 ﻿@model List<Fase1PED.Models.Usuario>
 
-<h2>Usuarios Incobrables (E)</h2>
-<p>Estos son usuarios marcados como incobrables. Listos para vender la deuda.</p>
+@{
+    Layout = "~/Views/Shared/_LayoutUsuarios.cshtml";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Categoría</th>
-            <th>Saldo</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var usuario in Model)
-        {
+<div class="usuarios-view">
+    <h2>Usuarios Incobrables (E)</h2>
+    <p>Estos son usuarios marcados como incobrables. Listos para vender la deuda.</p>
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>@usuario.Nombre</td>
-                <td>@usuario.Direccion</td>
-                <td>@usuario.Telefono</td>
-                <td>@usuario.Categoria.Nombre</td>
-                <td>@usuario.Saldo</td>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Categoría</th>
+                <th>Saldo</th>
+                <th>Pago pendiente</th>
+                <th>Salario</th>
+                <th>Segundo Ingreso</th>
+                <th>Tiempo AFP</th>
+                <th>Tiempo Empresa</th>
+                <th>Tarjeta</th>
             </tr>
-        }
-    </tbody>
-</table>
-<a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary">Volver a la Lista General</a>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Direccion</td>
+                    <td>@usuario.Telefono</td>
+                    <td>@(usuario.Categoria != null ? usuario.Categoria.Nombre : "Sin Categoría")</td>
+                    <td>@usuario.Saldo</td>
+                    <td>@(usuario.PagoPendiente ? "Sí" : "No")</td>
+                    <td>@usuario.Salario</td>
+                    <td>@(usuario.SegundoIngreso.HasValue ? usuario.SegundoIngreso.Value.ToString("N2") : "No aplica")</td>
+                    <td>@usuario.TiempoAFP - meses</td>
+                    <td>@usuario.TiempoEmpresa - meses</td>
+                    <td>@(usuario.Tarjeta != null ? usuario.Tarjeta.NombreTarjeta : "Sin Tarjeta")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary">Volver a la Lista General</a>
+</div>

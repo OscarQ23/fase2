@@ -1,68 +1,102 @@
-﻿
-
-@{
+﻿@{
     ViewData["Title"] = "Sistema de Gestión de Usuarios";
 }
 
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Sistema de Gestión de Usuarios Bancarios</h2>
+<div class="container-fluid d-flex align-items-center justify-content-center" style="min-height: 100vh; background-color: #fffffd;">
+    <div class="inner bg-white p-5 rounded shadow-lg">
+        <header>
+            <h1 class="text-center">Sistema de Gestión de Usuarios Bancarios</h1>
+            <p class="text-center">Seleccione la categoría de usuarios para gestionar.</p>
+        </header>
+        <section class="tiles d-flex flex-wrap justify-content-center">
+            <!-- Tarjeta 1 -->
+            <a href="@Url.Action("ClientesBuenosOrganizados", "Usuario")" class="style1 mx-2 mb-3 text-decoration-none card-hover">
+                <span class="image">
+                    <img src="https://via.placeholder.com/250x150/28a745/FFFFFF?text=Buenos" alt="Usuarios Buenos" />
+                </span>
+                <h2>Usuarios Buenos (A y B)</h2>
+                <div class="content">
+                    <p>Gestiona usuarios calificados como buenos.</p>
+                </div>
+            </a>
 
-    <div class="menu-container text-center">
-        <div class="menu">
-            <ul class="nav flex-column align-items-center">
-                <li class="nav-item mb-2">
-                    <a class="nav-link btn btn-secondary btn-lg" href="@Url.Action("ClientesBuenosOrganizados", "Usuario")">
-                        Usuarios Buenos (A y B)
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link btn btn-warning btn-lg" href="@Url.Action("ClientesMalosOrganizados", "Usuario")">
-                        Usuarios para Cobro (C y D)
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link btn btn-info  btn-lg" href="@Url.Action("ClientesIncobrablesOrganizados", "Usuario")">Ver Clientes Incobrables   Usuarios Incobrables (E) </a>
-                </li>
-            </ul>
+            <!-- Tarjeta 2 -->
+            <a href="@Url.Action("ClientesMalosOrganizados", "Usuario")" class="style2 mx-2 mb-3 text-decoration-none card-hover">
+                <span class="image">
+                    <img src="https://via.placeholder.com/250x150/ffc107/000000?text=Por+Cobrar" alt="Usuarios para Cobro" />
+                </span>
+                <h2>Usuarios para Cobro (C y D)</h2>
+                <div class="content">
+                    <p>Gestiona usuarios con deudas pendientes.</p>
+                </div>
+            </a>
+
+            <!-- Tarjeta 3 -->
+            <a href="@Url.Action("ClientesIncobrablesOrganizados", "Usuario")" class="style3 mx-2 mb-3 text-decoration-none card-hover">
+                <span class="image">
+                    <img src="https://via.placeholder.com/250x150/dc3545/FFFFFF?text=Incobrables" alt="Usuarios Incobrables" />
+                </span>
+                <h2>Usuarios Incobrables (E)</h2>
+                <div class="content">
+                    <p>Gestiona usuarios clasificados como incobrables.</p>
+                </div>
+            </a>
+        </section>
+        <div class="text-center mt-4">
+            <a href="@Url.Action("AgregarUsuario", "Usuario")" class="btn btn-success btn-lg">Agregar Nuevo Usuario</a>
         </div>
-    </div>
-
-    <div class="add-user text-center ">
-        <a href="@Url.Action("AgregarUsuario", "Usuario")" class="btn btn-success btn-lg">Agregar Nuevo Usuario</a>
     </div>
 </div>
 
-<!-- Estilos personalizados -->
+<!-- Estilos Personalizados -->
 <style>
-    .menu-container {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        color: white;
+    /* Contenedor de las tarjetas */
+    .tiles {
+        gap: 15px;
     }
 
-    .menu ul {
-        list-style-type: none;
-        padding: 0;
-
+    /* Tarjetas clickeables */
+    .card-hover {
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 250px;
+        text-align: center;
+        padding: 20px;
     }
 
-    .menu ul a {
-        color: white;
-    }
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    .nav-item {
-        width: 100%;
-    }
+        /* Imágenes dentro de las tarjetas */
+        .card-hover .image img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
 
-    .nav-link {
-        display: inline-block;
-        width: 80%;
-        font-weight: bold;
-        padding: 15px;
-    }
+        /* Texto del título */
+        .card-hover h2 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 10px 0;
+            color: #333;
+        }
 
-    .add-user {
-        
+        /* Contenido adicional */
+        .card-hover .content p {
+            font-size: 14px;
+            margin: 0 10px 10px;
+            color: #666;
+        }
+
+    .inner {
+        max-width: 100%;
     }
 </style>
-

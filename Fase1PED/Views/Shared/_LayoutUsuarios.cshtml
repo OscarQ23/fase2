@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Gestión de Clientes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Fase1PED.styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden; /* Solo oculta el scroll horizontal */
+        }
+
+        main {
+            height: calc(100vh - 70px); /* Aplica una altura que llena casi toda la ventana */
+            overflow: hidden;
+            display: flex; /* Esto centra los elementos horizontal y verticalmente */
+            align-items: center; /* Centra verticalmente */
+            justify-content: center; /* Centra horizontalmente */
+        }
+
+
+            main.login-page {
+                display: block; /* Permite contenido dinámico en el login */
+                height: auto; /* Deja que el contenido fluya según su tamaño */
+                min-height: calc(100vh - 70px); /* Asegura que cubra todo el espacio visible si es necesario */
+                overflow: auto;
+            }
+    </style>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Financiera EFI-FAST</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Clasificacion CLI</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Otorgar Tarjetas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Historial CLI</a>
+                        </li>
+                    </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-action="Logout" asp-controller="Account" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">Cerrar Sesión</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main" style="min-height: calc(100vh - 100px);  display: block; padding-bottom: 100px;">
+        @RenderBody()
+    </main>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; 2024 - Proyecto Final PED - <a asp-area="" asp-controller="Home" asp-action="Privacy">Sistema de Gestión Bancaria</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

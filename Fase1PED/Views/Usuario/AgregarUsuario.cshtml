@@ -1,60 +1,96 @@
 ﻿@model Fase1PED.Models.Usuario
 
-<h2>Agregar Nuevo Usuario</h2>
-
-<form asp-action="AgregarUsuario" method="post">
-    <div class="form-group">
-        <label asp-for="Nombre"></label>
-        <input asp-for="Nombre" class="form-control" required />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Direccion"></label>
-        <input asp-for="Direccion" class="form-control" required />
-        <span asp-validation-for="Direccion" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Telefono"></label>
-        <input asp-for="Telefono" class="form-control" required />
-        <span asp-validation-for="Telefono" class="text-danger"></span>
-    </div>
-
-    <!-- Ajustar el dropdown para seleccionar la categoría -->
-    <div class="form-group">
-        <label asp-for="CategoriaId"></label>
-        <select asp-for="CategoriaId" class="form-control" required>
-            <option value="">Seleccione una categoría</option>
-            @foreach (var categoria in ViewBag.Categorias)
-            {
-                <!-- Asegúrate de que se envíe el Id de la categoría correctamente -->
-                <option value="@categoria.Id">@categoria.Nombre - @categoria.Descripcion</option>
-            }
-        </select>
-        <span asp-validation-for="CategoriaId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Saldo"></label>
-        <input asp-for="Saldo" class="form-control" type="number" step="0.01" required />
-        <span asp-validation-for="Saldo" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="PagoPendiente"></label>
-        <select asp-for="PagoPendiente" class="form-control" required>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-        </select>
-        <span asp-validation-for="PagoPendiente" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
-</form>
-
-<a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary">Volver a la Lista General</a>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+@{
+    Layout = "~/Views/Shared/_LayoutUsuarios.cshtml"; // Usamos el layout específico de usuarios
 }
+
+<div class="form-container">
+    <h2>Agregar Nuevo Usuario</h2>
+
+    <form asp-action="AgregarUsuario" method="post" class="styled-form">
+        <div class="form-group">
+            <label>Nombre Cliente</label>
+            <input asp-for="Nombre" class="form-control" required />
+            <span asp-validation-for="Nombre " class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Direccion del  Cliente</label>
+            <input asp-for="Direccion" class="form-control" required />
+            <span asp-validation-for="Direccion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Numero de telefono</label>
+            <input asp-for="Telefono" class="form-control" required />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Categorias</label>
+            <select asp-for="CategoriaId" class="form-control" required>
+                <option value="">Seleccione una categoría</option>
+                @foreach (var categoria in ViewBag.Categorias)
+                {
+                    <option value="@categoria.Id">@categoria.Nombre - @categoria.Descripcion</option>
+                }
+            </select>
+            <span asp-validation-for="CategoriaId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Saldo</label>
+            <input asp-for="Saldo" class="form-control" type="number" step="0.01" required />
+            <span asp-validation-for="Saldo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Pagos pendientes</label>
+            <select asp-for="PagoPendiente" class="form-control" required>
+                <option value="true">Sí</option>
+                <option value="false">No</option>
+            </select>
+            <span asp-validation-for="PagoPendiente" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Salario mensual</label>
+            <input asp-for="Salario" class="form-control" type="number" step="0.01" required />
+            <span asp-validation-for="Salario" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Segundo Ingreso</label>
+            <input asp-for="SegundoIngreso" class="form-control" type="number" step="0.01" />
+            <span asp-validation-for="SegundoIngreso" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Tiempo cotizando AFP - MESES</label>
+            <input asp-for="TiempoAFP" class="form-control" type="number" required />
+            <span asp-validation-for="TiempoAFP" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Tipo en la empresa - MESES</label>
+            <input asp-for="TiempoEmpresa" class="form-control" type="number" required />
+            <span asp-validation-for="TiempoEmpresa" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Tipo de tarjeta Adquiridad</label>
+            <select asp-for="TarjetaId" class="form-control">
+                <option value="">Seleccione una tarjeta (opcional)</option>
+                @foreach (var tarjeta in ViewBag.Tarjetas)
+                {
+                    <option value="@tarjeta.Id">@tarjeta.NombreTarjeta - @tarjeta.Tipo</option>
+                }
+            </select>
+            <span asp-validation-for="TarjetaId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+    </form>
+
+    <a href="@Url.Action("Index", "Usuario")" class="btn btn-primary">Volver a la Lista General</a>
+</div>

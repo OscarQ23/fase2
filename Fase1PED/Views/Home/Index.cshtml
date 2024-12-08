@@ -1,9 +1,156 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutUsuarios.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financiera Segura - Soluciones Financieras</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .hero_inicio {
+            background: linear-gradient(to right, #4caf50, #81c784);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
 
+            .hero_inicio h1 {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .hero_inicio p {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+
+            .hero_inicio .btn {
+                font-size: 1rem;
+            }
+
+        .features_inicio {
+            padding: 40px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+            .features_inicio .card {
+                height: 100%;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+                .features_inicio .card:hover {
+                    transform: translateY(-10px);
+                    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+                }
+
+        .testimonials_inicio {
+            background-color: #f8f9fa;
+            padding: 50px 0;
+        }
+
+        .cta_inicio {
+            background: linear-gradient(to right, #f44336, #e57373);
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        footer_inicio {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero_inicio">
+        <div class="container">
+            <h1>Financiera Segura</h1>
+            <p>Soluciones financieras para ayudarte a alcanzar tus metas. ¡Solicita tu crédito ahora!</p>
+            <a href="#services_inicio" class="btn btn-light btn-lg">Conoce más</a>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div id="services_inicio" class="features_inicio">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-3">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Préstamos Personales</h5>
+                            <p class="card-text">Obtén un préstamo rápido y sin complicaciones para tus necesidades personales.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Financiamiento Empresarial</h5>
+                            <p class="card-text">Impulsa tu negocio con nuestras opciones de financiamiento flexibles.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Asesoría Financiera</h5>
+                            <p class="card-text">Recibe consejos expertos para mejorar tu salud financiera.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials_inicio">
+        <div class="container">
+            <h2 class="text-center mb-4">Lo que dicen nuestros clientes</h2>
+            <div class="row text-center">
+                <div class="col-md-4 mb-3">
+                    <blockquote class="blockquote">
+                        <p>"Gracias a Financiera Segura logré cumplir mi sueño de tener mi propia casa."</p>
+                        <footer class="blockquote-footer">Carlos López</footer>
+                    </blockquote>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <blockquote class="blockquote">
+                        <p>"El proceso fue rápido y transparente. Totalmente recomendados."</p>
+                        <footer class="blockquote-footer">Ana Martínez</footer>
+                    </blockquote>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <blockquote class="blockquote">
+                        <p>"Sus asesores me ayudaron a organizar mis finanzas y a salir de deudas."</p>
+                        <footer class="blockquote-footer">Jorge García</footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="cta_inicio">
+        <div class="container">
+            <h2>¿Estás listo para mejorar tu futuro financiero?</h2>
+            <p>Únete a miles de clientes satisfechos. Solicita tu crédito ahora.</p>
+            <a href="#contact_inicio" class="btn btn-light btn-lg">Contáctanos</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer_inicio">
+        <p>&copy; 2024 Financiera Segura. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
