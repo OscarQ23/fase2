@@ -1,13 +1,16 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Fase1PED.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fase1PED.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
+    
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;

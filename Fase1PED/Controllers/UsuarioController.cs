@@ -1,162 +1,158 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Fase1PED.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fase1PED.Controllers
 {
+    [Authorize]
     public class UsuarioController : Controller
     {
         private readonly AppDbContext _context;
 
-        //Contexto de la base para realizar operaciones
+        // Constructor
         public UsuarioController(AppDbContext context)
         {
             _context = context;
-            CargarUsuariosDesdeBaseDeDatos();
         }
 
-        // Cargar los usuarios desde la base de datos y llenar el heap
-        private void CargarUsuariosDesdeBaseDeDatos()
-        { 
-            var usuariosDB = _context.Usuarios.Include(u => u.Categoria).ToList();
-        }
-
-        //Ejecutar la vista
+        // Vista principal
         public IActionResult Index()
         {
-            return View();
+            var usuarios = _context.Usuarios
+                .Include(u => u.Categoria) // Cargar relación con Categoría
+                .Include(u => u.Tarjeta)   // Cargar relación con Tarjeta (opcional)
+                .ToList();
+            return View(usuarios);
         }
 
-        //agregar usuario
         public IActionResult AgregarUsuario()
         {
-            ViewBag.Categorias = _context.Categorias.ToList();
+            CargarViewBags();
             return View();
         }
 
-
-        //Meth creado para poder hacer el envio a la base de datos
+        // Método para procesar el formulario de agregar usuario (POST)
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AgregarUsuario(Usuario usuario)
         {
-            // Verifica si el ModelState es válido
+            
             if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                Console.WriteLine("Errores de validación:");
+                foreach (var state in ModelState)
                 {
-                    Console.WriteLine("Error de ModelState: " + error.ErrorMessage);
+                    Console.WriteLine($"Campo: {state.Key}, Errores: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
                 }
 
-                // Recarga las categorías en caso de error
-                ViewBag.Categorias = _context.Categorias.ToList();
+                CargarViewBags();
                 return View(usuario);
             }
 
             try
             {
-                // Hacemos el respectivo insert a la base de datos
+                // Insertar usuario en la base de datos
                 _context.Usuarios.Add(usuario);
                 _context.SaveChanges();
+
+                Console.WriteLine("Usuario agregado exitosamente.");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Excepción durante la inserción: " + ex.Message);
-                ModelState.AddModelError(string.Empty, "Ocurrió un error al agregar el usuario: " + ex.Message);
+                Console.WriteLine($"Error al guardar usuario: {ex.Message}");
+                Console.WriteLine($"Detalles: {ex.StackTrace}");
+                ModelState.AddModelError("", "Ocurrió un error al guardar los datos.");
             }
 
-            //Recargamos la vista par poder ver los respectivos cambios
-            ViewBag.Categorias = _context.Categorias.ToList();
+            CargarViewBags();
             return View(usuario);
         }
 
-        // METH para los clientes de tipo A Y B
+
+        // Vista para clientes de tipo A y B
         public IActionResult ClientesBuenosOrganizados()
         {
-            //Obtenemos la categoria de los clientes con ID 1 y 2 , los cuales como descripcion son A Y B
-            var clientesBuenos = _context.Usuarios
-                .Where(u => u.CategoriaId == 1 || u.CategoriaId == 2) 
-                .ToList();
-
-            // Crear el heap para clientes buenos
+           
+                var clientesBuenos = _context.Usuarios
+                    .Include(u => u.Categoria) // Cargar las categorías relacionadas
+                    .Include(u => u.Tarjeta)   // Cargar las tarjetas relacionadas
+                    .Where(u => u.CategoriaId == 1 || u.CategoriaId == 2)
+                    .ToList();
+          
             UsuarioHeap heapBuenos = new UsuarioHeap(UsuarioHeap.TipoHeap.Bueno);
 
-            //Colocamos los clientes en el heap
             foreach (var cliente in clientesBuenos)
             {
                 heapBuenos.Insertar(cliente);
             }
 
-            //Listado para organizar a los clientes con la logica que creamos en el heap 
-            List<Usuario> clientesOrganizados = new List<Usuario>();
-            while (heapBuenos.ObtenerMayorPrioridad() != null)
-            {
-                var clienteConPrioridad = heapBuenos.ObtenerMayorPrioridad();
-                clientesOrganizados.Add(clienteConPrioridad);
-                heapBuenos.EliminarMayorPrioridad();
-            }
-
+            var clientesOrganizados = ExtraerUsuariosDelHeap(heapBuenos);
             return View(clientesOrganizados);
         }
 
-        // METH para los clientes de tipo C Y D
+        // Vista para clientes de tipo C y D
         public IActionResult ClientesMalosOrganizados()
-        { 
+        {
             var clientesMalos = _context.Usuarios
-                .Where(u => u.CategoriaId == 3 || u.CategoriaId == 4 ) 
-                .ToList();
+                  .Include(u => u.Categoria) // Cargar las categorías relacionadas
+                  .Include(u => u.Tarjeta)   // Cargar las tarjetas relacionadas
+                  .Where(u => u.CategoriaId == 3 || u.CategoriaId == 4)
+                  .ToList();
 
-            // Crear el heap para clientes malos
             UsuarioHeap heapMalos = new UsuarioHeap(UsuarioHeap.TipoHeap.Malo);
 
-            //insertamos los clientes malos al heap
             foreach (var cliente in clientesMalos)
             {
                 heapMalos.Insertar(cliente);
             }
 
-            // Extraemos y hacemos el listado segun la prioridad del heap
-            List<Usuario> clientesOrganizados = new List<Usuario>();
-            while (heapMalos.ObtenerMayorPrioridad() != null)
-            {
-                var clienteConPrioridad = heapMalos.ObtenerMayorPrioridad();
-                clientesOrganizados.Add(clienteConPrioridad);
-                heapMalos.EliminarMayorPrioridad();
-            }
+            var clientesOrganizados = ExtraerUsuariosDelHeap(heapMalos);
             return View(clientesOrganizados);
         }
 
-        /// Meth para los clientes de tipo E - Incobrables
+        // Vista para clientes de tipo E - Incobrables
         public IActionResult ClientesIncobrablesOrganizados()
         {
-            // Obtener usuarios con categoría E (incobrables)
             var clientesIncobrables = _context.Usuarios
+                
                 .Where(u => u.CategoriaId == 5)
-                .Include(u => u.Categoria) // Incluimos la categoría si la usas en la vista
+                .Include(u => u.Categoria)
+                .Include(u => u.Tarjeta)
                 .ToList();
 
-            // Crear el heap para clientes incobrables
             UsuarioHeap heapIncobrables = new UsuarioHeap(UsuarioHeap.TipoHeap.Incobrable);
 
-            // Insertar los clientes incobrables en el heap
             foreach (var cliente in clientesIncobrables)
             {
                 heapIncobrables.Insertar(cliente);
             }
 
-            // Extraer los clientes del heap en orden de prioridad
-            List<Usuario> clientesOrganizados = new List<Usuario>();
-            while (heapIncobrables.ObtenerMayorPrioridad() != null)
-            {
-                var clienteConPrioridad = heapIncobrables.ObtenerMayorPrioridad();
-                clientesOrganizados.Add(clienteConPrioridad);
-                heapIncobrables.EliminarMayorPrioridad();
-            }
-
-            // Pasar la lista organizada a la vista
+            var clientesOrganizados = ExtraerUsuariosDelHeap(heapIncobrables);
             return View(clientesOrganizados);
+        }
+
+        // Método para cargar las categorías y tarjetas en ViewBag
+        private void CargarViewBags()
+        {
+            ViewBag.Categorias = _context.Categorias.ToList();
+            ViewBag.Tarjetas = _context.Tarjetas.ToList();
+        }
+
+        // Método auxiliar para extraer usuarios del heap en orden de prioridad
+        private List<Usuario> ExtraerUsuariosDelHeap(UsuarioHeap heap)
+        {
+            var usuariosOrganizados = new List<Usuario>();
+            while (heap.ObtenerMayorPrioridad() != null)
+            {
+                var usuario = heap.ObtenerMayorPrioridad();
+                usuariosOrganizados.Add(usuario);
+                heap.EliminarMayorPrioridad();
+            }
+            return usuariosOrganizados;
         }
     }
 }
