@@ -1,22 +1,185 @@
 ﻿html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding-top: 0px;
+}
+
+/* Efecto hover para las filas de la tabla */
+.usuarios-view .table tbody tr:hover td {
+    background-color: blue; /* Color de fondo suave al pasar el mouse */
+}
+
+    /* Efecto para las celdas al hacer hover */
+    .usuarios-view .table tbody tr:hover td {
+        color: white; /* Cambiar el color del texto al pasar el mouse */
+    }
+
+/* Contenedor principal */
+.usuarios-view {
+    margin-top: 20px; /* Justo debajo del header */
+    padding: 10px 20px; /* Espaciado interno */
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+    /* Estilo del título */
+    .usuarios-view h2 {
+        margin: 0;
+        padding-bottom: 10px;
+        font-size: 1.8rem;
+        color: #2c3e50;
+        text-align: left; /* Alinear a la izquierda */
+    }
+
+    /* Tabla */
+    .usuarios-view .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .usuarios-view .table th {
+            background-color: #34495e;
+            color: #ffffff;
+            text-align: left;
+            padding: 12px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .usuarios-view .table td {
+            background-color: #f7f9fc;
+            color: #2c3e50;
+            padding: 12px;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .usuarios-view .table tbody tr:nth-child(even) {
+            background-color: #ecf0f1;
+        }
+
+        .usuarios-view .table tbody tr:hover {
+            background-color: #d6eaf8;
+            transition: background-color 0.3s ease;
+        }
+
+    /* Botón */
+    .usuarios-view a.btn {
+        margin-top: 15px;
+        padding: 10px 20px;
+        color: #ffffff;
+        background-color: #e74c3c;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        font-size: 1rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .usuarios-view a.btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+        }
+/* Contenedor del Formulario */
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Scroll interno si es necesario */
+    max-height: calc(100vh - 160px); /* Ajustar espacio entre header y footer */
+}
+
+    /* Título del Formulario */
+    .form-container h2 {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #34495e;
+        margin-bottom: 15px;
+    }
+
+/* Ajustes en los Campos del Formulario */
+.styled-form .form-group {
+    margin-bottom: 15px;
+}
+
+.styled-form label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.styled-form .form-control {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Botones */
+.styled-form button.btn-primary {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+    .styled-form button.btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+a.btn-primary {
+    display: inline-block; /* Cambiar a block si quieres que ocupe todo el ancho */
+    margin-top: 10px;
+    padding: 8px;
+    font-size: 0.9rem;
+    color: white;
+    width: 100%;
+    font-weight: bold;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+    a.btn-primary:hover {
+        background-color: #0056b3;
+    }
